@@ -8,7 +8,7 @@ Phase 2 implements low-level kernel telemetry via `auditd` to track system call 
 ---
 
 
-## 🛠️ Tools & Technologies
+## Tools & Technologies
 * **Operating System:** Debian 12 (Bookworm)
 * **Kernel Auditing Framework:** Linux Audit Subsystem (`auditd`)
 * **Plugin Architecture:** `audispd-plugins`
@@ -27,7 +27,6 @@ Engineered persistent kernel rules in `/etc/audit/rules.d/audit.rules` to captur
 
 # Privilege Escalation Monitoring
 -w /etc/sudoers -p wa -k privilege_changes
-
 ```
 
 ### 2. Local Telemetry Verification
@@ -44,6 +43,15 @@ sudo aureport -summary
 #Query account modifications report (IAM)
 sudo aureport -m
 ```
+## Phase Results & Verification
+Displays list of all account modifications on the system
+![](../screenshots/4_auditd_verification_aureport.png)
+
+Displays a summarized view of what's occurring in the system
+![](../screenshots/5_auditd_verification_aureport_summary.png)
+
+Query audit logs for events tagged with custom key label 
+![](../screenshots/6_auditd_verification_ausearch.png)
 
 ## Next Steps
 Proceed to Phase 3: Centralized SIEM Log Pipeline to configure the Splunk Universal Forwarder and stream host telemetry to Splunk.
