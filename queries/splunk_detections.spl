@@ -1,0 +1,8 @@
+-- Detection 1: SSH Brute Force / Failed Logins
+index=main host="debian12" source="/var/log/auth.log" "Failed password"
+
+-- Detection 2: Privileged Commands (Sudo)
+index=main host="debian-server" source="/var/log/auth.log" "COMMAND="
+
+-- Detection 3: File Integrity & Identity Modifications
+index=main host="debian-server" sourcetype="auditd" (key="privilege_changes" OR key="identity_changes")

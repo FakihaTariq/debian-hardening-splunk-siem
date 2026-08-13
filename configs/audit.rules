@@ -1,0 +1,8 @@
+# Monitor User Account & Group Identity File Changes
+-w /etc/passwd -p wa -k identity_changes
+-w /etc/shadow -p wa -k identity_changes
+-w /etc/group -p wa -k identity_changes
+
+# Monitor Sudoers File & Privilege Configuration
+-w /etc/sudoers -p wa -k privilege_changes
+-w /etc/sudoers.d/ -p wa -k privilege_changes
