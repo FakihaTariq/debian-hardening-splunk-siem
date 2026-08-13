@@ -8,6 +8,13 @@ Phase 1 focuses on reducing the attack surface of the Debian 12 host by enforcin
 ---
 
 
+## Tools & Technologies
+* **Operating System:** Debian 12 (Bookworm)
+* **Firewall Engine:** Uncomplicated Firewall (`ufw`)
+* **Remote Access & Protocol:** OpenSSH Server (`sshd`)
+* **Cryptographic Keys:** `Ed25519` Asymmetric Key Pair
+* **CLI Utilities:** `ssh-keygen`, `chmod`, `systemctl`
+
 
 
 ## Implementation Steps
@@ -21,12 +28,9 @@ Configured a default-deny posture for incoming traffic while explicitly allowing
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 
-```
-
-#### Configure custom SSH port rule
-
-```bash
+# Configure custom SSH port rule
 sudo ufw allow ssh
+
 # Enable firewall
 sudo ufw enable
 sudo ufw status verbose
@@ -57,4 +61,7 @@ PubkeyAuthentication yes
 
 ## Engineering Notes & Troubleshooting
 Service Runtime Directories: Resolved SSH service startup failures (crashed due to errors in sshd\_config file) by ensuring /run/sshd permissions matched standard Debian privilege requirements before correctly editing the file.
+
+## Next Steps
+Proceed to Phase 2: Kernel-Level Event Auditing (auditd) to configure low-level system call telemetry and custom watch rules.
 
