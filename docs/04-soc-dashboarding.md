@@ -8,7 +8,7 @@ Phase 4 translates ingested host logs into actionable SOC analytics through cust
 ---
 
 
-## 🛠️ Tools & Technologies
+## Tools & Technologies
 * **SIEM Platform:** Splunk Enterprise Web Interface
 * **Query Language:** Splunk Processing Language (SPL)
 * **Visualization Components:** Single-Value Panels, Line Charts, Categorical Bar Charts, Data Tables
