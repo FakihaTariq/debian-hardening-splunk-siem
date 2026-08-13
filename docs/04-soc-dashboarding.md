@@ -8,7 +8,14 @@ Phase 4 translates ingested host logs into actionable SOC analytics through cust
 ---
 
 
-## Security Analytics & SPL Queries
+## 🛠️ Tools & Technologies
+* **SIEM Platform:** Splunk Enterprise Web Interface
+* **Query Language:** Splunk Processing Language (SPL)
+* **Visualization Components:** Single-Value Panels, Line Charts, Categorical Bar Charts, Data Tables
+* **Attack Simulation Tools:** OpenSSH CLI, `sudo`, Bash Scripting
+* **Framework Alignment:** MITRE ATT&CK (Brute Force, Valid Accounts, Privilege Escalation)
+
+## Threat Detections (SPL)
 
 ### 1. SSH Brute Force Detection
 
@@ -40,7 +47,6 @@ Built a real-time dashboard featuring key panels:
 index=main host="debian-server" 
 | stats count
 ```
-  Trigger by attempting to SSH into host server through fake usernames multiple times
 
 2. Authentication Activity Timeline: Line chart tracking authentication events over time.
 
@@ -48,7 +54,6 @@ index=main host="debian-server"
 index=main host="debian12" source="/var/log/auth.log" 
 | timechart count by sourcetype
 ```
-  Trigger by performing successful SSH login using ed25519 key.
 
 3. Kernel Audit Events by Key: Categorical distribution of identity_changes vs privilege_changes.
 
@@ -56,7 +61,6 @@ index=main host="debian12" source="/var/log/auth.log"
 index=main host="debian-server" sourcetype="auditd" 
 | stats count by key
 ```
- Trigger by switching between root and test session followed by a auditd restart.
 
 4. Recent Privileged Commands: Interactive tabular view of sudo execution history.
 
@@ -64,5 +68,38 @@ index=main host="debian-server" sourcetype="auditd"
 index=main host="debian12" source="/var/log/auth.log" "COMMAND=" 
 | table _time, user, COMMAND
 ```
-  Trigger by creating or modifying a watched configuration file using sudo
 
+## Attack Simulation & Verification Exercises
+### Exercise 1: Brute-Force Simulation
+Executed invalid login sequences to trigger auth.log failed password events
+
+```bash
+ssh fakeuser@<DEBIAN_IP>
+```
+
+### Exercise 2: Privileges File Integrity Trigger
+Triggered kernel watch rules by editing watched privilege directories
+
+```bash
+sudo touch /etc/sudoers.d/test_rule
+sudo ufw status
+sudo rm /etc/sudoers.d/test_rule
+```
+
+### Exercise 3: Generate System Activity & Authentication Events
+Generated a mix of successful/failed logins and rule triggers
+
+```bash
+#Successful SSH login
+ssh user@<DEBIAN_IP>
+
+#Switch between root and test session
+sudo -i
+exit
+
+#Restart auditd to generate system service event keys
+sudo service auditd restart
+```
+
+## Phase Results & Verification
+![SOC dashboards for tracking real-time events](../screenshots/9_soc_dashboard.png)
