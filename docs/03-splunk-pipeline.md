@@ -8,6 +8,14 @@ Phase 3 establishes an agent-based log forwarder pipeline using the Splunk Unive
 ---
 
 
+## 🛠️ Tools & Technologies
+* **Forwarding Agent:** Splunk Universal Forwarder (`splunkforwarder`)
+* **SIEM Target:** Splunk Enterprise Indexer
+* **Syslog Engine:** `rsyslog`
+* **Target Log Files:** `/var/log/auth.log`, `/var/log/audit/audit.log`
+* **Network & Ingestion Ports:** TCP Port `9997`
+* **Configuration Files:** `inputs.conf`
+
 ## Technical Implementation
 
 ### 1. Syslog Service Restoration (`rsyslog`)
@@ -22,7 +30,6 @@ sudo systemctl enable --now rsyslog
 Installed the Splunk Universal Forwarder package and configured /opt/splunkforwarder/etc/system/local/inputs.conf to target key log sources.
 
 ```text
-
 [default]
 host = debian-server
 
@@ -37,15 +44,25 @@ sourcetype = auditd
 index = main
 ```
 
-### 3. Log Forwarding & Permissions
+### 3. Log Forwarding & Connection Setup
 Configured world-read permissions on targeted log files and established the central receiver connection.
 
 ```bash
+# Grant read permissions to log files
+sudo chmod 755 /var/log
 sudo chmod 644 /var/log/auth.log
 sudo chmod o+r /var/log/audit/audit.log
-sudo /opt/splunkforwarder/bin/splunk add forward-server <SPLUNK_IP>:9997
+
+# Connect to Splunk Receiver
+sudo /opt/splunkforwarder/bin/splunk add forward-server <SPLUNK_RECEIVER_IP>:9997
 ```
+
+#### Connection Status Verification:
+### 4. Indexer Ingestion Verification
+Verified raw log ingestion in the Splunk Search interface for both sourcetype=syslog and sourcetype=auditd.
 
 ## Engineering Notes & Troubleshooting
 Systemd Service Naming: Splunk forwarder generates systemd integration under the service name SplunkForwarder.service (rather than splunkd). Service status verified via systemctl status SplunkForwarder.
 
+## Next Steps
+Proceed to Phase 4: Threat Detection, Alerting & SOC Dashboarding to build custom SPL queries and assemble the real-time SOC dashboard.
