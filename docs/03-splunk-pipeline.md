@@ -8,7 +8,7 @@ Phase 3 establishes an agent-based log forwarder pipeline using the Splunk Unive
 ---
 
 
-## 🛠️ Tools & Technologies
+## Tools & Technologies
 * **Forwarding Agent:** Splunk Universal Forwarder (`splunkforwarder`)
 * **SIEM Target:** Splunk Enterprise Indexer
 * **Syslog Engine:** `rsyslog`
@@ -63,6 +63,13 @@ Verified raw log ingestion in the Splunk Search interface for both sourcetype=sy
 
 ## Engineering Notes & Troubleshooting
 Systemd Service Naming: Splunk forwarder generates systemd integration under the service name SplunkForwarder.service (rather than splunkd). Service status verified via systemctl status SplunkForwarder.
+
+## Phase Results & Verification
+Splunk forwarder shows logs are being actively forwarded
+![](../screenshots/7_splunk_forwarder_status.png)
+
+Displays the log events being successfully aggregating logs
+![](../screenshots/8_splunk_raw_events.png)
 
 ## Next Steps
 Proceed to Phase 4: Threat Detection, Alerting & SOC Dashboarding to build custom SPL queries and assemble the real-time SOC dashboard.
