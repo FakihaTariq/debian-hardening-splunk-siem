@@ -62,6 +62,16 @@ PubkeyAuthentication yes
 ## Engineering Notes & Troubleshooting
 Service Runtime Directories: Resolved SSH service startup failures (crashed due to errors in sshd\_config file) by ensuring /run/sshd permissions matched standard Debian privilege requirements before correctly editing the file.
 
+## Phase Results & Verification
+Verify UFW is up and running
+![](../screenshots/1_ufw_status.png)
+
+Creation of SSH key through ed25519 encryption
+![](../screenshots/2_ssh_hardening.png)
+
+File changed in sshd_config
+![](../screenshots/3_ssh_hardening_configuration.png)
+
 ## Next Steps
 Proceed to Phase 2: Kernel-Level Event Auditing (auditd) to configure low-level system call telemetry and custom watch rules.
 
